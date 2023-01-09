@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+
+  app:
+    image: tjohns96rev/project-one:latest
+    container_name: project-one
+    ports:
+      - 8080:8080
+    volumes:
+     - ./logs/:/logs/
+    
+  loki:
+    image: grafana/loki:latest
+    container_name: logging-loki
+    ports:
+      - 3100:3100
+    
+  promtail:
+    image: grafana/promtail:latest
+    container_name: logging-promtail
+    volumes:
+      - ./configs/promtail-config.yml:/etc/promtail/promtail-config.yml
+      - ./logs/staticLogs.log/:/var/log/staticLogs.log
+    command: "--config.file=/etc/promtail/promtail-config.yml"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: logging-grafana
+    ports:
+      - 3000:3000
+    depends_on:
+      - loki
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - ./configs/prometheus-config.yml:/etc/prometheus/prometheus-config.yml
+      - ./configs/prometheus-rules.yml:/etc/prometheus/prometheus-rules.yml
+    container_name: logging-prometheus
+    command: "--config.file=/etc/prometheus/prometheus-config.yml"

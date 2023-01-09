@@ -1,0 +1,25 @@
+groups:
+  - name: project-one
+    rules:
+      - alert: APIHighLatency:5min
+        expr: sum(rate(http_server_requests_seconds_sum {job="project-one"}[5m]))/sum(rate(http_server_requests_seconds_count {job="project-one"}[5m])) > 0.2
+        labels:
+          severity: warn
+        annotations:
+          summary: "Latency is too high"
+          description: "The latency of responses from project-one over the past 5 minutes is higher than 200ms"
+      - alert: APISuccessRate:5min
+        expr: sum(rate(http_server_requests_seconds_count {job="project-one",status!="500"}[5m]))/sum(rate(http_server_requests_seconds_count {job="project-one"}[5m])) < 0.98
+        labels:
+          severity: warn
+        annotations:
+          summary: "Success rate is too low"
+          description: "The percentage of successful responses from project-one is below 98%."
+      - alert: AppDown
+        expr: up == 0
+        for: 5m
+        labels:
+          severity: warn
+        annotations:
+          summary: "App is not running"
+          description: "The project-one application has not been running for 5 min."

@@ -1,0 +1,19 @@
+#config from: https://github.com/EricTrainingRev/221205-SRE/blob/main/Java_Notes/boot/configs/promtail-config.yml
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push # this tells promtail to send the logs to Loki
+
+scrape_configs: # this section tells promtail where to find the log files
+  - job_name: system
+    static_configs: # we choose static_configs because our local logs are "static"
+      - targets:
+          - localhost
+        labels:
+          job: project-one
+          __path__: /var/log/staticLogs.log

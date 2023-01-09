@@ -1,0 +1,17 @@
+#config from: https://github.com/EricTrainingRev/221205-SRE/blob/main/Java_Notes/boot/configs/prometheus-config.yml
+global:
+  scrape_interval: 15s
+
+rule_files:
+  - prometheus-rules.yml
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - prometheus:9090
+  - job_name: project-one # this adds the "sports" label to all metrics provided by this scrape config
+    metrics_path: /actuator/prometheus # this endpoint is added by micrometer dependency in app
+    static_configs:
+      - targets:
+          - app:8080 # this tells prometheus to target port 8080 of the service called app
