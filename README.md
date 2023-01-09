@@ -1,3 +1,6 @@
+# Team Name
+- Team Rocket
+
 # Planetarium
 
 The Planetarium is a web service that allows users to add planets and associated moons to a central database to map the night sky. Users must register an account to participate, and those who do will be able to associate themselves with the planets and moons they add to the database. In the previous Sprint, you implemented the repository and service layer of the application, implemented logging, and created a bash script solution to measure the SLIs of the application.
