@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service # we are creating a service object
+metadata:
+  name: planetarium-loadbalancer # the name of the service in kubernetes. does not have any real impact on code
+spec: # technial specifications of the service
+  type: LoadBalancer # Type of service are the other types NodePort, ClusterIP, Ingress
+  selector: # Selectors specify what pods does this service expose
+    app: planetarium
+  ports: 
+    - protocol: TCP
+      port: 80 # port of the load balancer 80 is the standard http port 
+      targetPort: 8080

@@ -1,4 +1,4 @@
-apiVersion: "planetarium/v1"
+apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "planetarium-deployment"
@@ -6,7 +6,7 @@ metadata:
   labels:
     app: "planetarium"
 spec: # this is where we create the replicaset specs
-  replicas: 1 #We can change if we need to show multiple cluster/pod ids
+  replicas: 3 #We can change if we need to show multiple cluster/pod ids
   selector:
     matchLabels:
       app: "planetarium"
@@ -37,8 +37,8 @@ spec: # this is where we create the replicaset specs
       #     mountPath: /etc/promtail
 
 
-      # volumes:
-      #   - name: logs # this is the volume that will have data from the pod stored in
+      volumes:
+        - name: logs # this is the volume that will have data from the pod stored in
       #   - name: promtail-config # volume name
       #     configMap: # configMaps are objects key value pair collections, usually of non-sensitive information
       #       name: promtail-config # configMap name

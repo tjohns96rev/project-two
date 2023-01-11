@@ -1,0 +1,17 @@
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "planetarium-clusterip"
+  namespace: "default"
+  labels:
+    app: "planetarium"
+spec:
+  ports:
+  - name: http
+    protocol: "TCP"
+    port: 80
+    targetPort: 8080
+  selector:
+    app: "planetarium"
+  type: "ClusterIP"
+  
