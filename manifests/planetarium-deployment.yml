@@ -1,0 +1,44 @@
+apiVersion: "planetarium/v1"
+kind: "Deployment"
+metadata:
+  name: "planetarium-deployment"
+  namespace: "default"
+  labels:
+    app: "planetarium"
+spec: # this is where we create the replicaset specs
+  replicas: 1 #We can change if we need to show multiple cluster/pod ids
+  selector:
+    matchLabels:
+      app: "planetarium"
+  template: # this is where the pod information starts
+    metadata: # I am not setting a name for the pods because the deployment will handle that for me
+      labels:
+        app: "planetarium"
+    spec:
+      # terminationGracePeriodSeconds: 30
+      containers:
+      - name: "planetarium-app"
+        image: "tjohns96rev/project-two:latest"
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+        volumeMounts: # this tells Kubernetes what directory/files to add to a volume
+          - mountPath: /logs
+            name: logs # this is the volume we want the logs mounted to
+
+      # - name: promtail-container
+      #   image: grafana/promtail
+      #   args:
+      #   - -config.file=/etc/promtail/promtail.yml
+      #   volumeMounts:
+      #   - name: logs # the promtail and greeter containers will share this logs volume
+      #     mountPath: /logs # this is where the logs will be saved in the promtail container
+      #   - name: promtail-config
+      #     mountPath: /etc/promtail
+
+
+      # volumes:
+      #   - name: logs # this is the volume that will have data from the pod stored in
+      #   - name: promtail-config # volume name
+      #     configMap: # configMaps are objects key value pair collections, usually of non-sensitive information
+      #       name: promtail-config # configMap name
