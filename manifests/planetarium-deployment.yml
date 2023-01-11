@@ -6,7 +6,7 @@ metadata:
   labels:
     app: "planetarium"
 spec: # this is where we create the replicaset specs
-  replicas: 1 #We can change if we need to show multiple cluster/pod ids
+  replicas: 3 #We can change if we need to show multiple cluster/pod ids
   selector:
     matchLabels:
       app: "planetarium"
