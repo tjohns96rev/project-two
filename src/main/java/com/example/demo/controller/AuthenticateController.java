@@ -18,14 +18,7 @@ import com.example.demo.service.UserService;
 @RestController
 public class AuthenticateController {
 
-    private boolean isLoggedIn;
-
     private static Logger authenticateLogger = LoggerFactory.getLogger(AuthenticateController.class);
-
-    public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
     @Autowired
     private UserService userService;
 
@@ -37,21 +30,19 @@ public class AuthenticateController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginInfo loginInfo, HttpSession session) {
-        if (isLoggedIn) {
+        if (session.getAttribute("isLoggedIn") != null && (Boolean) session.getAttribute("isLoggedIn")) {
             return new ResponseEntity<>("You are already logged in. To switch accounts please logout first.",
                     HttpStatus.OK);
         }
         if (!userService.login(loginInfo)) {
             throw new Error("Sorry those credentials don't match any existing account.");
         }
-        isLoggedIn = true;
         session.setAttribute("isLoggedIn", true);
         return new ResponseEntity<>("Login Successful", HttpStatus.OK);
     }
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
-        isLoggedIn = false;
         session.setAttribute("isLoggedIn", false);
         return new ResponseEntity<>("Logged out", HttpStatus.OK);
     }
