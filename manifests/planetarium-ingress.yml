@@ -10,7 +10,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /(.+) # regular expression of nginx: this will send anything AFTER the given path to the service stated below
+          - path: /planetarium(.+) # regular expression of nginx: this will send anything AFTER the given path to the service stated below
             pathType: Prefix
             backend:
               service:
