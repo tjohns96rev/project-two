@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: planetarium-ingress
+  annotations: # Any object can use annotations. These will affect the resource/object in certain ways
+    kubernetes.io/ingress.class: nginx # this is provided by helm see https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+    nginx.ingress.kubernetes.io/use-regex: "true" # this lets us provide a pattern as a rule for where to send a request
+    nginx.ingress.kubernetes.io/rewrite-target: $1 # this tells the controller to remove the prefix added to the route
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /(.+) # regular expression of nginx: this will send anything AFTER the given path to the service stated below
+            pathType: Prefix
+            backend:
+              service:
+                name: planetarium-clusterip # notice I am targetting the name, not a label
+                port:
+                  number: 80 # standard http port
