@@ -1,0 +1,18 @@
+prometheus:
+  prometheusSpec: # this tells Prometheus to look for the service monitor/s with the given key/value labels
+    # serviceMonitorNamespaceSelector: {default}
+    serviceMonitorSelector:
+      matchLabels:
+        app: planetarium
+
+grafana:
+    namespaceOverride: "default"
+    grafana.ini:
+      server:
+        serve_from_sub_path: "true"
+        root_url: "%(protocol)s://%(domain)s:/grafana/" # this lets Kubernetes auto set root_url value
+
+    ingress:
+      enabled: true
+      path: /grafana
+      ingressClassName: nginx
