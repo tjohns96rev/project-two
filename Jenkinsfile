@@ -24,7 +24,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
             // steps is where the actual commands go
             steps{
                 echo "Print something to console"
-                container("docker"){
+                container('docker'){
                         script{
                         // the script section is sometimes needed when using functions provided by Jenkins plugins
                         //

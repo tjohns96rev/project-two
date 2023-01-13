@@ -20,7 +20,7 @@ controller:
     path: "/jenkins"
 
 agent:
-  podTemplate: 
+  podTemplates: 
     devops: |
         - name: devops
           label: jenkins-devops
