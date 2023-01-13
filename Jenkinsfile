@@ -17,7 +17,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
         DEVOPS_IMAGE=''
     }
 
-    stage{
+    stages{
         // this is where the steps of the job will be defined
 
         stage("Build and push docker image"){
