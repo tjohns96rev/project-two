@@ -21,9 +21,9 @@ controller:
 
 agent:
   podTemplate: 
-    planetarium: |
-        - name: planetarium
-          label: jenkins-planetarium
+    devops: |
+        - name: devops
+          label: jenkins-devops
           serviceAccount: jenkins
           containers:
           - name: docker

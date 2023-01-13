@@ -5,7 +5,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
         kubernetes{
             // this tells Jenkins to use the pod called "devops" we defined in the jenkins-values.yaml file
             // which will give us access to the docker commands we need to build/push our docker image
-            inheritFrom "planetarium"
+            inheritFrom "devops"
         }
     }
 
@@ -31,7 +31,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                         DEVOPS_IMAGE= docker.build(DEVOPS_REGISTRY,".") 
                         // if docker file is store in sre file then second prameter should bd "src"
                         // withRegistry(repo location empty string if docker hub, docker credentials)
-                        docker.withRegisrty("", 'docker-creds'){
+                        docker.withRegistry("", 'docker-creds'){
                             DEVOPS_IMAGE.push("$currentBuild.number")
                         } //docker-creds is the credentical id when you created yours not the same one
                     }
