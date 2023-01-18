@@ -3,13 +3,13 @@ version: '3'
 services:
 
   app:
-    image: tjohns96rev/project-one:latest
-    container_name: project-one
+    image: tjohns96rev/project-two:latest
+    container_name: project-two
     ports:
       - 8080:8080
     volumes:
      - ./logs/:/logs/
-    
+  
   loki:
     image: grafana/loki:latest
     container_name: logging-loki
