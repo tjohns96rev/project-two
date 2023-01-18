@@ -3,9 +3,15 @@ kind: Ingress
 metadata:
   name: planetarium-ingress
   annotations: # Any object can use annotations. These will affect the resource/object in certain ways
-    kubernetes.io/ingress.class: nginx # this is provided by helm see https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
-    nginx.ingress.kubernetes.io/use-regex: "true" # this lets us provide a pattern as a rule for where to send a request
-    nginx.ingress.kubernetes.io/rewrite-target: $1 # this tells the controller to remove the prefix added to the route
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true" #allows regular expressions such as /planetarium(.+)
+    nginx.ingress.kubernetes.io/rewrite-target: $1 #rewrites the uri and removes the planetarium bit
+    nginx.ingress.kubernetes.io/affinity: "cookie" #sets session affinity to cookie
+    nginx.ingress.kubernetes.io/session-cookie-path: /planetarium #this is needed so generated cookie is sent to the same uri/pod or else cookie will not be found
+    #if you want both regex and cookies this must be added When using this annotation with the NGINX annotation nginx.ingress.kubernetes.io/affinity of type cookie, nginx.ingress.kubernetes.io/session-cookie-path must be also set; Session cookie paths do not support regex.
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800" #in seconds, two days
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+    nginx.ingress.kubernetes.io/affinity-mode: balanced
 spec:
   rules:
     - http:
