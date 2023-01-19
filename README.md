@@ -1,11 +1,12 @@
 # Team Name
+
 - Team Rocket
 
 # Planetarium
 
-The Planetarium is a web service that allows users to add planets and associated moons to a central database to map the night sky. Users must register an account to participate, and those who do will be able to associate themselves with the planets and moons they add to the database. In the previous Sprint, you implemented the repository and service layer of the application, implemented logging, and created a bash script solution to measure the SLIs of the application.
+The Planetarium is a web service that allows users to add planets and associated moons to a central database to map the night sky. Users must register an account to participate, and those who do will be able to associate themselves with the planets and moons they add to the database. In the previous Sprint, you turned the Planetarium into a Spring Boot application, created a docker image of the project, set up a deployment using a docker compose file that included log aggregation via Promtail and Loki, added metric over time tracking with Prometheus, and used Grafana as part of the deployment to provide a single interface for viewing the aggregated logs and metrics.
 
-In this sprint you will be converting this application into a Spring Boot application and adding on new observability tools in order to prepare for monitoring more SLIs. You will also be using Docker to containerize the application and the associated monitoring tools for ease of deployment. This is a critical step that must be completed before the main goal for this application can be achieved: deployment to Kubernetes.
+In this sprint you will add on the infrastructure to deploy your Planetarium app and monitoring tools into a Kubernetes cluster. Once your cluster is set up you will have two more goals: implement a DevOps pipeline facilitated by Jenkins, and set up a terraform file to create a Postgres RDS instance for your Planetarium.
 
 ## Key Terminology
 
@@ -20,34 +21,35 @@ In this sprint you will be converting this application into a Spring Boot applic
 - **Minimum Viable Product**
   - a phrase used to describe a project that has the minimum number of features and functionality applied to make the sprint considered successful
 
-## Development Requirements
-
-The application currently utilizes Javalin and JDBC: you will be converting the app to use Spring Boot with the **Spring Data**, **Spring Web**, and **Spring Actuator** modules.
-
-- All repository, service, and API layer features must be recreated in Spring Boot
-  - your application should connect to the same database you used from P0
-  - you will NOT need a ConnectionUtil class for P1
-- After converting the project over to Spring Boot, you will need to containerize the project and save the image on Docker Hub
-
-  - any updates to the project/image need to be saved to Docker Hub
-
-- After containerizing the application you will need to implement/add the following technologies to your application deployment via a docker compose file:
-  - Micrometer
-  - Promtail
-  - Loki
-  - Prometheus
-  - Grafana
--
-
 ## SRE Requirements
 
-In the previous Sprint you used bash to calculate your SLIs: this time around you will be making use of some new tools. The following technologies must be implemented/deployed alongside the containerized planetarium app to achieve mvp requirements:
+- Kubernetes Requirements
+  - Planetarium should be deployed to a Kubernetes Cluster
+    - Promtail should be sidecar deployed alongside the Planetarium
+  - Loki should be deployed in the cluster for log aggregation
+  - Prometheus should be deployed in the cluster for metric tracking over time
+  - Grafana should be deployed in the cluster to allow viewing/interacting with logs and metrics
+  - Jenkins should be deployed in the cluster to manage your DevOps pipeline
+- Terraform Requirements
+  - Terraform should be used to manage a new Postgres RDS instance for your Planetarium application
+    - make sure that it is free tier eligible when you create it
+- Github Requirements
 
-- Micrometer
-- Promtail
-- Loki
-- Prometheus
-- Grafana
+  - all team members should contribute to the github repository
+  - git polling should be set up to allow for Jenkins to automate the DevOps pipeline you set up
+  - the main branch of the project repository should be protected from direct pushes
+    - all Sprint work should be done on secondary branches
+    - secondary branch names should reflect what work is being done
+
+- DevOps Requirements
+
+  - all team members should make Continuous Integration a central part of their Sprint work
+  - Some level of Continuous Delivery should be implemented by the end of the Sprint
+    - Jenkins should manage your DevOps pipeline
+
+- Team Requirements
+  - team members should pair program during this sprint
+    - "pairs" can be larger than groups of two
 
 ### Service Level Objects
 
@@ -56,28 +58,6 @@ In the previous Sprint you used bash to calculate your SLIs: this time around yo
 ### Service Level Indicators
 
 - Latency
-  - you should track how long it takes for the Planetarium app to handle requests made to the system
+  - you should track how long it takes for all Planetarium apps to handle requests made to the system
 - Error Rate
   - you should track the percentage of how many http requests return a non-500 status code
-
-### Service Level Indicator Exposure
-
-Micrometer will expose the relevant data in your Spring application, and Prometheus will scrape the data from Micrometer. You will make use of Grafana to visualize and track your SLIs.
-
-# MVP Requirements Rundown
-
-- Development
-  - All repository, service, and API layer methods should be implemented in a Spring Boot application
-  - A docker image of your application should be created and saved in Docker Hub
-  - A docker compose file should be created to handle deploying your containerized application and auxilary software
-- SRE
-  - Logs generated by the Planetarium should be persisted in a volume outside of the running container
-  - Your application should expose metrics concerning http requests made and latency times via Micrometer
-  - Promtail should push your application logs to loki
-  - Prometheus should be able to scrape your SLI metrics exposed by Micrometer
-  - You should be able to view your metrics over time provided by Prometheus and your logs within Loki by utilizing Grafana
-- Presentation date is 1/5/2023
-
-# Stretch Goal
-
-Stretch goals are things to work on ONLY when all MVP requirements have been accomplished: listed below are optional features you can add to the project to enhance it further: - Add Alerting by using AlertManager and Prometheus
