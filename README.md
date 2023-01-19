@@ -2,6 +2,8 @@
 
 - Team Rocket
 
+Change
+
 # Planetarium
 
 The Planetarium is a web service that allows users to add planets and associated moons to a central database to map the night sky. Users must register an account to participate, and those who do will be able to associate themselves with the planets and moons they add to the database. In the previous Sprint, you turned the Planetarium into a Spring Boot application, created a docker image of the project, set up a deployment using a docker compose file that included log aggregation via Promtail and Loki, added metric over time tracking with Prometheus, and used Grafana as part of the deployment to provide a single interface for viewing the aggregated logs and metrics.
