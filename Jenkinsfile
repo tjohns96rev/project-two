@@ -32,7 +32,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                         // if docker file is store in sre file then second prameter should bd "src"
                         // withRegistry(repo location empty string if docker hub, docker credentials)
                         docker.withRegistry("", 'docker-creds'){
-                            DEVOPS_IMAGE.push("$currentBuild.number")
+                            DEVOPS_IMAGE.push("")
                         } //docker-creds is the credentical id when you created yours not the same one
                     }
                 }
