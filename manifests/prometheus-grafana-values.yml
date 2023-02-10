@@ -1,10 +1,3 @@
-prometheus:
-  prometheusSpec: # this tells Prometheus to look for the service monitor/s with the given key/value labels
-    # serviceMonitorNamespaceSelector: {default}
-    serviceMonitorSelector:
-      matchLabels:
-        app: planetarium
-
 grafana:
     namespaceOverride: "default"
     grafana.ini:
@@ -12,6 +5,15 @@ grafana:
         serve_from_sub_path: "true"
         root_url: "%(protocol)s://%(domain)s:/grafana/" # this lets Kubernetes auto set root_url value
 
+      smtp:
+        enabled: true
+        host: smtp.gmail.com:587
+        user: alertmanagerplanetarium@gmail.com
+        password: awhuvnfjhwgsepzv
+        skip_verify: true
+        from_address: alertmanagerplanetarium@gmail.com
+        from_name: AlertManager
+        
     ingress:
       enabled: true
       path: /grafana
